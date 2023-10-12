@@ -1,7 +1,15 @@
+import { useState } from "react";
 import "./App.css";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Tab, Tabs, Typography } from "@mui/material";
+import AppHead from "./components/AppHead";
 
 const App = () => {
+  const [tab, setTab] = useState(0);
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTab(newValue);
+  };
+
   return (
     <Grid
       container
@@ -9,13 +17,8 @@ const App = () => {
       justifyContent={"flex-start"}
       alignItems={"stretch"}
     >
-      <Grid
-        item
-        sx={{ backgroundColor: "#7315b8", height: "4em", padding: "1em" }}
-      >
-        <Typography variant={"h5"}>ToWorkDo</Typography>
-      </Grid>
-      <Grid item></Grid>
+      <AppHead tab={tab} handleTabChange={handleTabChange} />
+      <Grid item alignItems={"center"} justifyContent={"center"}></Grid>
     </Grid>
   );
 };
