@@ -11,11 +11,18 @@ const AppHead = ({ tab, handleTabChange }: AppHeadProps) => {
       container
       justifyContent="space-between"
       alignItems="center"
-      sx={{ backgroundColor: "#e68f4c", height: "4em" , paddingRight: "1em", paddingLeft: "1em"}}
+      sx={{
+        backgroundColor: "#e68f4c",
+        height: "4em",
+        paddingRight: "1em",
+        paddingLeft: "1em",
+      }}
     >
       <Grid item xs={3}>
-        <Typography variant={"h5"}>ToWorkDo</Typography></Grid>
-      <Grid item xs={6}><Tabs
+        <Typography variant={"h5"}>ToWorkDo</Typography>
+      </Grid>
+      <Grid item xs={6}>
+        <Tabs
           value={tab}
           onChange={(event, newValue) => handleTabChange(event, newValue)}
           variant="fullWidth"
@@ -24,8 +31,9 @@ const AppHead = ({ tab, handleTabChange }: AppHeadProps) => {
           <Tab label={"Backlog"} />
           <Tab label={"Time log"} />
           <Tab label={"Stats"} />
-        </Tabs></Grid>
-        
+        </Tabs>
+      </Grid>
+
       <Grid item xs={3}></Grid>
     </Grid>
   );
