@@ -1,4 +1,5 @@
 import { Grid, Tab, Tabs, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 type AppHeadProps = {
   tab: number;
@@ -6,13 +7,14 @@ type AppHeadProps = {
 };
 
 const AppHead = ({ tab, handleTabChange }: AppHeadProps) => {
+  const { t } = useTranslation();
+
   return (
     <Grid
       container
       justifyContent="space-between"
       alignItems="center"
       sx={{
-        backgroundColor: "#e68f4c",
         height: "4em",
         paddingRight: "1em",
         paddingLeft: "1em",
@@ -27,10 +29,10 @@ const AppHead = ({ tab, handleTabChange }: AppHeadProps) => {
           onChange={(event, newValue) => handleTabChange(event, newValue)}
           variant="fullWidth"
         >
-          <Tab label={"Tablica"} />
-          <Tab label={"Backlog"} />
-          <Tab label={"Time log"} />
-          <Tab label={"Stats"} />
+          <Tab label={t("table")} />
+          <Tab label={t("backlog")} />
+          <Tab label={t("time_log")} />
+          <Tab label={t("stats")} />
         </Tabs>
       </Grid>
 

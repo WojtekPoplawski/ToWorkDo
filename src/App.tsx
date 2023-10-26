@@ -1,7 +1,8 @@
 import { useState } from "react";
 import "./App.css";
-import { Grid, Tab, Tabs, Typography } from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 import AppHead from "./components/AppHead";
+import Backlog from "./components/Backlog.tsx";
 
 const App = () => {
   const [tab, setTab] = useState(0);
@@ -10,15 +11,47 @@ const App = () => {
     setTab(newValue);
   };
 
+  const tabSwitch = () => {
+    switch (tab) {
+      case 0:
+        return <></>;
+      case 1:
+        return (
+          <>
+            <Backlog />
+          </>
+        );
+      case 2:
+        return <></>;
+      case 3:
+        return <></>;
+      default:
+        return <></>;
+    }
+  };
+
   return (
     <Grid
       container
-      direction={"column"}
-      justifyContent={"flex-start"}
-      alignItems={"stretch"}
+      sx={{
+        backgroundColor: "#e68f4c",
+        height: "100vh",
+        width: "100vw",
+      }}
     >
       <AppHead tab={tab} handleTabChange={handleTabChange} />
-      <Grid item alignItems={"center"} justifyContent={"center"}></Grid>
+
+      <Paper
+        elevation={4}
+        sx={{
+          borderRadius: 2.5,
+          marginLeft: "1rem",
+          marginRight: "1rem",
+          marginBottom: "1rem",
+          height: "88%",
+          width: "98%",
+        }}
+      ></Paper>
     </Grid>
   );
 };
