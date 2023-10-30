@@ -50,8 +50,11 @@ const App = () => {
           marginBottom: "1rem",
           height: "88%",
           width: "98%",
+          padding: "1rem",
         }}
-      ></Paper>
+      >
+        {tabSwitch()}
+      </Paper>
     </Grid>
   );
 };
