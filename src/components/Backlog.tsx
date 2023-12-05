@@ -13,6 +13,8 @@ import {
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { ArrowDownward } from "@mui/icons-material";
+import { useLiveQuery } from "dexie-react-hooks";
+import { db } from "../db/db";
 
 type Task = {
   id: number;
@@ -76,7 +78,11 @@ const Backlog = () => {
     },
   ];
   const { t } = useTranslation();
+
   const [taskList, setTaskList] = useState<Array<Task>>(mockData);
+  const dbData = useLiveQuery(
+    () => db.tasks.toArray()
+  )
 
   return (
     <Grid container justifyContent={"center"}>
