@@ -1,6 +1,5 @@
 import {
   Grid,
-  IconButton,
   Paper,
   Table,
   TableBody,
@@ -11,12 +10,10 @@ import {
   Typography,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
-import { ArrowDownward } from "@mui/icons-material";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../db/db";
 import AddNewTask from "./shared/AddNewTask";
-import { TaskRepository } from "../db/tasksRepository";
+import BooleanIcon from "./shared/BooleanIcon";
 
 type Task = {
   id: number;
@@ -41,56 +38,30 @@ type Subtask = {
 };
 
 const Backlog = () => {
-  const mockData: Array<Task> = [
-    {
-      id: 0,
-      title: "Opracowanie schematu bazy danych",
-      description: "Description of task one",
-      priority: 0,
-      assigned: false,
-      create_date: new Date(),
-      deadline: new Date(),
-    },
-    {
-      id: 0,
-      title: "Podłącznie indexedDB do aplikacji",
-      description: "Description of task one",
-      priority: 0,
-      assigned: false,
-      create_date: new Date(),
-      deadline: new Date(),
-    },
-    {
-      id: 0,
-      title: "Utworzenie szkieletu backlogu",
-      description: "Description of task one",
-      priority: 0,
-      assigned: false,
-      create_date: new Date(),
-      deadline: new Date(),
-    },
-    {
-      id: 0,
-      title: "Task one",
-      description: "Description of task one",
-      priority: 0,
-      assigned: false,
-      create_date: new Date(),
-      deadline: new Date(),
-    },
-  ];
   const { t } = useTranslation();
-  // const [tasks, setTasks] = useState<Task[]>([]);
-  // const tasksPromise = TaskRepository.getAllTasks().then((response) => {
-  //   console.log("response: ", response);
-  //   setTasks(response)
-  // });
 
   const tasks = useLiveQuery(() => db.tasks.toArray(), []);
 
+  const getPrioirtyLabel = (priority: number | undefined | null) => {
+    switch (priority) {
+      case 2:
+        return t("highest_priority");
+      case 1:
+        return t("high_priority");
+      case 0:
+        return t("neutral_priority");
+      case -1:
+        return t("low_priority");
+      case -2:
+        return t("lowest_priority");
+      default:
+        return t("neutral_priority");
+    }
+  };
+
   return (
-    <Grid container justifyContent={"center"}>
-      <Typography variant={"h3"}>BackLog</Typography>
+    <Grid container justifyContent="center">
+      <Typography variant="h3">BackLog</Typography>
       <AddNewTask />
       <TableContainer component={Paper}>
         <Table>
@@ -98,7 +69,9 @@ const Backlog = () => {
             <TableRow>
               <TableCell>#</TableCell>
               <TableCell>{t("task_title")}</TableCell>
+              <TableCell>{t("project_id")}</TableCell>
               <TableCell>{t("task_priority")}</TableCell>
+              <TableCell>{t("task_assigned")}</TableCell>
               <TableCell>{t("task_deadline")}</TableCell>
               <TableCell></TableCell>
             </TableRow>
@@ -108,12 +81,13 @@ const Backlog = () => {
               <TableRow key={index}>
                 <TableCell>{task.id}</TableCell>
                 <TableCell>{task.title}</TableCell>
-                <TableCell>{task.priority}</TableCell>
+                <TableCell>{task.project_id}</TableCell>
+                <TableCell>{getPrioirtyLabel(task.priority)}</TableCell>
                 <TableCell>
-                  <Typography>{task.deadline.toString()}</Typography>
+                  <BooleanIcon value={task.assigned} />
                 </TableCell>
                 <TableCell>
-                
+                  <Typography>{task.deadline.toUTCString()}</Typography>
                 </TableCell>
               </TableRow>
             ))}
@@ -123,4 +97,5 @@ const Backlog = () => {
     </Grid>
   );
 };
+
 export default Backlog;

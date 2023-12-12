@@ -1,5 +1,4 @@
 import {
-  Autocomplete,
   Button,
   Dialog,
   DialogContent,
@@ -8,7 +7,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { ChangeEvent, ChangeEventHandler, SyntheticEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import PrioritySelect from "./PrioritySelect";
 import { TaskRepository } from "../../db/tasksRepository";
@@ -20,6 +19,15 @@ const AddNewTask = () => {
   const [description, setDescription] = useState<string | undefined>(undefined);
   const [priority, setPiority] = useState<number | undefined|null>(null);
   const [deadline, setDeadline] = useState<string | undefined>(undefined);
+  const [isValid, setIsValid] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (title && description && priority && deadline) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  }, [title, description, priority, deadline]);
 
   const { t } = useTranslation();
 
@@ -145,7 +153,7 @@ const AddNewTask = () => {
                 onChange={handleDeadlineChange}
               />
             </Grid>
-            <Button onClick={()=>{handleAddNewTask()}}>{t("save_task")}</Button>
+            <Button disabled={!isValid} onClick={()=>{handleAddNewTask()}}>{t("save_task")}</Button>
           </Grid>
         </DialogContent>
       </Dialog>

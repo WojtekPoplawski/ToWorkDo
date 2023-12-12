@@ -1,12 +1,6 @@
-import {
-  KeyboardArrowDown,
-  KeyboardArrowUp,
-  KeyboardDoubleArrowDown,
-  KeyboardDoubleArrowUp,
-  Remove,
-} from "@mui/icons-material";
-import { Autocomplete, Box, InputAdornment, TextField } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import { SyntheticEvent, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type PrioritySelectType = {
   value: number | undefined | null;
@@ -14,29 +8,12 @@ type PrioritySelectType = {
 };
 
 const PrioritySelect = ({ value, handleValueChange }: PrioritySelectType) => {
-  const [priority, setPriority] = useState<number | undefined | null>(
-    value || null
-  );
+  const { t } = useTranslation();
+  const [priority, setPriority] = useState<number | undefined | null>(null);
   useEffect(() => {
     priority && handleValueChange(priority);
   }, [priority]);
 
-  const getPiorityIcon = (priority: number | undefined | null) => {
-    switch (priority) {
-      case -2:
-        return <KeyboardDoubleArrowDown color="error" />;
-      case -1:
-        return <KeyboardArrowDown color="warning" />;
-      case 0:
-        return <Remove color="primary" />;
-      case 1:
-        return <KeyboardArrowUp color="info" />;
-      case 2:
-        return <KeyboardDoubleArrowUp color="success" />;
-      default:
-        return <Remove color="primary" />;
-    }
-  };
   const handlePiorityChange = (
     event: SyntheticEvent<Element, Event>,
     value: number | null
@@ -44,30 +21,29 @@ const PrioritySelect = ({ value, handleValueChange }: PrioritySelectType) => {
     setPriority(value);
   };
 
+  const getPrioirtyLabel = (priority: number | undefined | null) => {
+    switch (priority) {
+      case 2:
+        return t("highest_priority");
+      case 1:
+        return t("high_priority");
+      case 0:
+        return t("neutral_priority");
+      case -1:
+        return t("low_priority");
+      case -2:
+        return t("lowest_priority");
+      default:
+        return t("neutral_priority");
+    }
+  };
+
   return (
     <Autocomplete
-      options={[-2, -1, 0, 1, 2]}
-      getOptionLabel={(option) => option.toString()}
-      renderOption={(props, option) => (
-        <Box component="li" {...props}>
-          {getPiorityIcon(option)}
-          {option}
-        </Box>
-      )}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          InputProps={{
-            ...params.InputProps,
-            startAdornment: (
-              <InputAdornment position="start">
-                {getPiorityIcon(Number(params.inputProps.value))}
-              </InputAdornment>
-            ),
-          }}
-        />
-      )}
-      value={priority || 0}
+      options={[2, 1, 0, -1, -2]}
+      getOptionLabel={(option) => getPrioirtyLabel(option)}
+      renderInput={(params) => <TextField {...params} />}
+      value={priority}
       onChange={handlePiorityChange}
     />
   );
