@@ -1,30 +1,20 @@
-// import { useQuery } from "react-query";
-// import { db } from "./db";
-// import { Project } from "./entities";
+import { IndexableType } from "dexie";
+import { db } from "./db";
+import { Project } from "./entities";
 
-// export class ProjectRepository {
-//     static addProject = (project: Project) =>
-//       useQuery(["addProject"], async () => db.projects.add(project));
-  
-//     static getAllProjects = () =>
-//       useQuery(["getAllProjects"], async () => db.projects.toArray());
-  
-//     static getProjectById = (projectId: number) =>
-//       useQuery(["getProjectById", projectId], async () =>
-//         db.projects.where("id").equals(projectId).first()
-//       );
-  
-//     static updateProject = (project: Project) =>
-//       useQuery(["updateProject"], async () => {
-//         const { id, ...updatedProject } = project;
-//         if (id) {
-//           await db.projects.update(id, updatedProject);
-//         }
-//       });
-  
-//     static deleteProject = (projectId: number) =>
-//       useQuery(["deleteProject"], async () => {
-//         await db.projects.delete(projectId);
-//       });
-//   }
-  
+export class ProjectRepository {
+  static addProject = async (project: Project): Promise<IndexableType> =>
+    await db.projects.add(project);
+
+  static getAllProjects = async (): Promise<Project[]> =>
+    await db.projects.toArray();
+
+  static getProject = async (id: number): Promise<Project | undefined> =>
+    await db.projects.get(id);
+
+  static editProject = async (project: Project): Promise<IndexableType> =>
+    await db.projects.update(project.id as number, project);
+
+  static deleteProject = async (id: number): Promise<void> =>
+    await db.projects.delete(id);
+}

@@ -5,5 +5,8 @@
   "stats": "Stats",
   "task_title": "Title",
   "task_priority": "Priority",
-  "task_deadline": "Deadline"
+  "task_deadline": "Deadline",
+  "task_description": "Description",
+  "add_new_task": "Add New Task",
+  "save_task": "Save Task"
 }

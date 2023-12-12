@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
-import { Button, Grid, Paper } from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 import AppHead from "./components/AppHead";
 import Backlog from "./components/Backlog.tsx";
-import { TaskRepository, addTask, getAllTasks } from "./db/tasksRepository.ts";
+import { db } from "./db/db.ts";
 
 const App = () => {
   const [tab, setTab] = useState(0);
@@ -31,17 +31,6 @@ const App = () => {
     }
   };
 
-  const handleAddTask = () => {
-    addTask({
-      title: "Test1",
-      project_id: undefined,
-      description: undefined,
-      priority: 0,
-      assigned: false,
-      create_date: new Date(),
-      deadline: new Date("2024-10-10"),
-    });
-  };
 
   return (
     <Grid
@@ -53,15 +42,6 @@ const App = () => {
       }}
     >
       <AppHead tab={tab} handleTabChange={handleTabChange} />
-      <Button onClick={handleAddTask}>TestDB</Button>
-      <Button
-        onClick={() => {
-          const dataa = getAllTasks().data;
-          console.log(dataa);
-        }}
-      >
-        repo
-      </Button>
       <Paper
         elevation={4}
         sx={{

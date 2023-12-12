@@ -7,10 +7,10 @@ export class ToWorkDoDB extends Dexie {
     projects!:Table<Project>
 
     constructor() {
-        super("toWorkDoDB");
+        super("app_db");
         this.version(1).stores({
-            tasks: '++id,title',
-            subtasks: '++id,task_id,title',
+            tasks: '++id,title,project_id,assigned,deadline',
+            subtasks: '++id,task_id,title,project_id,assigned,deadline',
             projects: '++id,title'
         })
     }

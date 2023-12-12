@@ -1,38 +1,33 @@
-import { useQuery } from 'react-query';
-import { db } from './db';
-import { Task } from './entities';
+import { IndexableType } from "dexie";
+import { db } from "./db";
+import { Task } from "./entities";
 
-export const addTask= (task: Task) =>
-useQuery(['addTask'], async () => db.tasks.add(task))
+export class TaskRepository {
+  static addTask = async (task: Task): Promise<IndexableType> =>
+    await db.tasks.add(task);
 
-export const getAllTasks =  () =>
-useQuery(['getAllTasks'], async () => db.tasks.toArray())
+  static editTask = async (task: Task): Promise<IndexableType> =>
+    await db.tasks.update(task.id as number, task);
 
-export const TaskRepository = {
-  addTask: (task: Task) =>
-    useQuery(['addTask'], async () => db.tasks.add(task)),
+  static deleteTask = async (id: number): Promise<void> =>
+    await db.tasks.delete(id);
 
-  getTasksForProject: (project_id: number) =>
-    useQuery([], async () => db.tasks.where('project_id').equals(project_id).toArray()),
+  static getAllTasks = async (): Promise<Task[]> => await db.tasks.toArray();
 
-  updateTask: (task: Task) =>
-    useQuery(['updateTask'], async () => {
-      const { id, ...updatedTask } = task;
-      if (id) {
-        await db.tasks.update(id, updatedTask);
-      }
-    }),
+  static getTask = async (id: number): Promise<Task | undefined> =>
+    await db.tasks.get(id);
 
-  getAllTasks: () =>
-    useQuery(['getAllTasks'], async () => db.tasks.toArray()),
+  static getTasksForProject = async (project_id: number): Promise<Task[]> =>
+    await db.tasks.where("project_id").equals(project_id).toArray();
 
-  deleteTask: (taskId: number) =>
-    useQuery(['deleteTask'], async () => {
-      await db.tasks.delete(taskId);
-    }),
+  static deleteTaskByProjectId = async (
+    project_id: number
+  ): Promise<IndexableType> =>
+    await db.tasks.where("project_id").equals(project_id).delete();
 
-  deleteTasksByProjectId: (project_id: number) =>
-    useQuery(['deleteTasksByProjectId'], async () => {
-      await db.tasks.where('project_id').equals(project_id).delete();
-    }),
-};
+  static getAllNotAssigned = async (): Promise<Task[]> =>
+    await db.tasks.where("assigned").equals(0).toArray();
+
+  static getAllAssigned = async (): Promise<Task[]> =>
+    await db.tasks.where("assigned").equals(1).toArray();
+}

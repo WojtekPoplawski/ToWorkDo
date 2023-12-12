@@ -15,6 +15,8 @@ import { useState } from "react";
 import { ArrowDownward } from "@mui/icons-material";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../db/db";
+import AddNewTask from "./shared/AddNewTask";
+import { TaskRepository } from "../db/tasksRepository";
 
 type Task = {
   id: number;
@@ -78,15 +80,18 @@ const Backlog = () => {
     },
   ];
   const { t } = useTranslation();
+  // const [tasks, setTasks] = useState<Task[]>([]);
+  // const tasksPromise = TaskRepository.getAllTasks().then((response) => {
+  //   console.log("response: ", response);
+  //   setTasks(response)
+  // });
 
-  const [taskList, setTaskList] = useState<Array<Task>>(mockData);
-  const dbData = useLiveQuery(
-    () => db.tasks.toArray()
-  )
+  const tasks = useLiveQuery(() => db.tasks.toArray(), []);
 
   return (
     <Grid container justifyContent={"center"}>
       <Typography variant={"h3"}>BackLog</Typography>
+      <AddNewTask />
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -99,7 +104,7 @@ const Backlog = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {taskList.map((task, index) => (
+            {tasks?.map((task, index) => (
               <TableRow key={index}>
                 <TableCell>{task.id}</TableCell>
                 <TableCell>{task.title}</TableCell>
@@ -108,11 +113,7 @@ const Backlog = () => {
                   <Typography>{task.deadline.toString()}</Typography>
                 </TableCell>
                 <TableCell>
-                  {task.subtasks !== undefined && task.subtasks?.length > 0 && (
-                    <IconButton>
-                      <ArrowDownward />
-                    </IconButton>
-                  )}
+                
                 </TableCell>
               </TableRow>
             ))}

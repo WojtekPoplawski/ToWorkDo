@@ -1,32 +1,32 @@
-// import { db } from "./db";
-// import { Subtask } from "./entities";
-// import { useQuery } from "react-query";
+import { IndexableType } from "dexie";
+import { db } from "./db";
+import { Subtask } from "./entities";
 
-// export class SubtaskRepository {
+export class SubtaskRepository {
+  static addSubtask = async (subtask: Subtask): Promise<IndexableType> =>
+    await db.subtasks.add(subtask);
 
-//   static addSubtask = (subtask: Subtask) =>
-//     useQuery(["addSubtask"], async () => db.subtasks.add(subtask));
+  static editSubtask = async (subtask: Subtask): Promise<IndexableType> =>
+    await db.subtasks.update(subtask.id as number, subtask);
 
-//   static getSubtasksForTask = (task_id: number) =>
-//     useQuery([], async () =>
-//       db.subtasks.where("task_id").equals(task_id).toArray()
-//     );
+  static deleteSubtask = async (id: number): Promise<void> =>
+    await db.subtasks.delete(id);
 
-//   static updateSubtask = (subtask: Subtask) =>
-//     useQuery(["updateSubtask"], async () => {
-//       const { id, ...updatedSubtask } = subtask;
-//       if (id) {
-//         await db.subtasks.update(id, updatedSubtask);
-//       }
-//     });
+  static getAllSubtaskForTask = async (task_id: number): Promise<Subtask[]> =>
+    await db.subtasks.where("task_id").equals(task_id).toArray();
 
-//   static deleteSubtask = (subtaskId: number) =>
-//     useQuery(["deleteSubtask"], async () => {
-//       await db.subtasks.delete(subtaskId);
-//     });
+  static getSubtask = async (id: number): Promise<Subtask | undefined> =>
+    await db.subtasks.get(id);
 
-//     static deleteSubtasksByTaskId = (task_id: number) =>
-//     useQuery(["deleteSubtasksByTaskId"], async () => {
-//       await db.subtasks.where("task_id").equals(task_id).delete();
-//     });
-// }
+  static deleteSubtaskByTaskId = async (task_id: number): Promise<void> => {
+    const transaction = await db.transaction("rw", db.subtasks, async () => {
+      await db.subtasks.where("task_id").equals(task_id).delete();
+    });
+  };
+
+  static getAllNotAssigned = async (): Promise<Subtask[]> =>
+    await db.subtasks.where("assigned").equals(0).toArray();
+
+  static getAllAssigned = async (): Promise<Subtask[]> =>
+    await db.subtasks.where("assigned").equals(1).toArray();
+}
