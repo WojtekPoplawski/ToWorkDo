@@ -10,14 +10,30 @@ import {
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import PrioritySelect from "./PrioritySelect";
-import { TaskRepository } from "../../db/tasksRepository";
+import { SubtaskRepository } from "../../db/subtasksRepository";
 
-const AddNewTask = () => {
+type AddNewSubtaskProps = {
+  task_id: number;
+  buttonOptions?: {
+    variant?: "text" | "outlined" | "contained" | undefined;
+    color?:
+      | "inherit"
+      | "primary"
+      | "secondary"
+      | "success"
+      | "error"
+      | "info"
+      | "warning"
+      | undefined;
+  };
+};
+
+const AddNewSubtask = ({ task_id, buttonOptions }: AddNewSubtaskProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const [title, setTitle] = useState<string | undefined>(undefined);
   const [description, setDescription] = useState<string | undefined>(undefined);
-  const [priority, setPiority] = useState<number | undefined|null>(null);
+  const [priority, setPiority] = useState<number | undefined | null>(null);
   const [deadline, setDeadline] = useState<string | undefined>(undefined);
   const [isValid, setIsValid] = useState<boolean>(false);
 
@@ -52,39 +68,50 @@ const AddNewTask = () => {
   };
 
   const handlePiorityChange = (value: number | null) => {
-    setPiority(value)
+    setPiority(value);
   };
-  const handleDeadlineChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setDeadline(event.target.value)
+  const handleDeadlineChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setDeadline(event.target.value);
   };
   const handleClearForm = () => {
     setTitle(undefined);
     setDescription(undefined);
     setPiority(null);
     setDeadline(undefined);
-  }
-  const handleAddNewTask = () => {
-    TaskRepository.addTask({
+  };
+  const handleAddNewSubtask = () => {
+    SubtaskRepository.addSubtask({
+      task_id: task_id,
       title: title || "",
       description: description || "",
       priority: priority || 0,
       assigned: 0,
       create_date: new Date(),
       deadline: new Date(deadline || ""),
-    }).then((result: any) => {
-      console.log(result);
-      handleClose();
-      handleClearForm();
-    }).catch((error: any) => {  
-      console.log(error);
-    });
+    })
+      .then((result: any) => {
+        console.log(result);
+        handleClose();
+        handleClearForm();
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
   };
 
   return (
     <>
-      <Button onClick={handleOpen}>{t("add_new_task")}</Button>
+      <Button
+        color={buttonOptions?.color !== undefined? buttonOptions?.color : "primary"}
+        variant={buttonOptions?.variant !== undefined? buttonOptions?.variant: "text"}
+        onClick={handleOpen}
+      >
+        {t("add_new_subtask")}
+      </Button>
       <Dialog open={dialogOpen} onClose={handleClose}>
-        <DialogTitle>{t("add_new_task")}</DialogTitle>
+        <DialogTitle>{t("add_new_subtask")}</DialogTitle>
         <DialogContent>
           <Grid
             container
@@ -102,7 +129,7 @@ const AddNewTask = () => {
               justifyContent={"space-evenly"}
               alignItems={"center"}
             >
-              <Typography>{t("add_new_task")}</Typography>
+              <Typography>{t("add_new_subtask")}</Typography>
               <TextField value={title} onChange={handleTitleChange} />
             </Grid>
             <Grid
@@ -113,7 +140,7 @@ const AddNewTask = () => {
               justifyContent={"space-evenly"}
               alignItems={"center"}
             >
-              <Typography>{t("task_description")}</Typography>
+              <Typography>{t("subtask_description")}</Typography>
               <TextField
                 multiline
                 minRows={3}
@@ -129,10 +156,11 @@ const AddNewTask = () => {
               justifyContent={"space-evenly"}
               alignItems={"center"}
             >
-              <Typography>{t("task_priority")}</Typography>
+              <Typography>{t("subtask_priority")}</Typography>
               <PrioritySelect
                 value={priority}
-                handleValueChange={handlePiorityChange}/>
+                handleValueChange={handlePiorityChange}
+              />
             </Grid>
             <Grid
               container
@@ -142,14 +170,21 @@ const AddNewTask = () => {
               justifyContent={"space-evenly"}
               alignItems={"center"}
             >
-              <Typography>{t("task_deadline")}</Typography>
+              <Typography>{t("subtask_deadline")}</Typography>
               <TextField
                 type="datetime-local"
                 value={deadline}
                 onChange={handleDeadlineChange}
               />
             </Grid>
-            <Button disabled={!isValid} onClick={()=>{handleAddNewTask()}}>{t("save_task")}</Button>
+            <Button
+              disabled={!isValid}
+              onClick={() => {
+                handleAddNewSubtask();
+              }}
+            >
+              {t("save_task")}
+            </Button>
           </Grid>
         </DialogContent>
       </Dialog>
@@ -157,4 +192,4 @@ const AddNewTask = () => {
   );
 };
 
-export default AddNewTask;
+export default AddNewSubtask;

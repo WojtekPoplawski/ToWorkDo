@@ -14,6 +14,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../db/db";
 import AddNewTask from "./shared/AddNewTask";
 import BooleanIcon from "./shared/BooleanIcon";
+import BacklogTableRow from "./backlog-table/BacklogTableRow";
 
 type Task = {
   id: number;
@@ -68,28 +69,18 @@ const Backlog = () => {
           <TableHead>
             <TableRow>
               <TableCell>#</TableCell>
-              <TableCell>{t("task_title")}</TableCell>
-              <TableCell>{t("project_id")}</TableCell>
-              <TableCell>{t("task_priority")}</TableCell>
-              <TableCell>{t("task_assigned")}</TableCell>
-              <TableCell>{t("task_deadline")}</TableCell>
+              <TableCell>{t("table_task_title")}</TableCell>
+              <TableCell>{t("table_task_project")}</TableCell>
+              <TableCell>{t("table_task_priority")}</TableCell>
+              <TableCell>{t("table_task_assigned")}</TableCell>
+              <TableCell>{t("table_task_deadline")}</TableCell>
+              <TableCell>{t("table_task_options")}</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {tasks?.map((task, index) => (
-              <TableRow key={index}>
-                <TableCell>{task.id}</TableCell>
-                <TableCell>{task.title}</TableCell>
-                <TableCell>{task.project_id}</TableCell>
-                <TableCell>{getPrioirtyLabel(task.priority)}</TableCell>
-                <TableCell>
-                  <BooleanIcon value={task.assigned} />
-                </TableCell>
-                <TableCell>
-                  <Typography>{task.deadline.toUTCString()}</Typography>
-                </TableCell>
-              </TableRow>
+              <BacklogTableRow key={index} task={task} />
             ))}
           </TableBody>
         </Table>

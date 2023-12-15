@@ -16,11 +16,26 @@
   "task_assigned":"Assigned",
 
 
-  "//Options": "",
+  
+  "//Subtask": "",
+
+  "subtask_title": "Title",
+  "subtask_priority": "Priority",
+  "subtask_deadline": "Deadline",
+  "subtask_description": "Description",
+  "subtask_assigned":"Assigned",
+
+
+  "//AddTaskOptions": "",
 
   "add_new_task": "Add New Task",
   "save_task": "Save Task",
 
+
+  "//AddSubtaskOptions": "",
+
+  "add_new_subtask": "Add New Subtask",
+  "save_subtask": "Save Subtask",
 
   "//Priority": "",
 
@@ -33,5 +48,20 @@
 
   "//Project": "",
 
-  "project_id":"Project ID"
+  "project_id":"Project ID",
+
+  "//TaskTable": "",
+
+  "table_task_title": "Title",
+  "table_task_project": "Project",
+  "table_task_priority": "Priority",
+  "table_task_deadline": "Deadline",
+  "table_task_assigned": "Assigned",
+  "table_task_description": "Description",
+  "table_task_options": "Options",
+  "task_table_add_subtask": "Add Subtask",
+  "task_table_edit": "Edit",
+  "task_table_delete": "Delete",
+
+  "end": "end"
 }
