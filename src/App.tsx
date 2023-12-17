@@ -4,6 +4,7 @@ import { Grid, Paper } from "@mui/material";
 import AppHead from "./components/AppHead";
 import Backlog from "./components/Backlog.tsx";
 import { db } from "./db/db.ts";
+import Kanban from "./components/Kanban.tsx";
 
 const App = () => {
   const [tab, setTab] = useState(0);
@@ -15,7 +16,11 @@ const App = () => {
   const tabSwitch = () => {
     switch (tab) {
       case 0:
-        return <></>;
+        return (
+          <>
+            <Kanban />
+          </>
+        );
       case 1:
         return (
           <>
@@ -30,7 +35,6 @@ const App = () => {
         return <></>;
     }
   };
-
 
   return (
     <Grid

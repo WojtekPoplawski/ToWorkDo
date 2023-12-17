@@ -15,6 +15,7 @@ import { db } from "../db/db";
 import AddNewTask from "./shared/AddNewTask";
 import BooleanIcon from "./shared/BooleanIcon";
 import BacklogTableRow from "./backlog-table/BacklogTableRow";
+import { TaskRepository } from "../db/tasksRepository";
 
 type Task = {
   id: number;
@@ -41,7 +42,7 @@ type Subtask = {
 const Backlog = () => {
   const { t } = useTranslation();
 
-  const tasks = useLiveQuery(() => db.tasks.toArray(), []);
+  const tasks = TaskRepository.getAllTasks();
 
   const getPrioirtyLabel = (priority: number | undefined | null) => {
     switch (priority) {

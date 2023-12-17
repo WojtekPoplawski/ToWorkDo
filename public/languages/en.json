@@ -63,5 +63,12 @@
   "task_table_edit": "Edit",
   "task_table_delete": "Delete",
 
+
+  "//Kanban": "",
+  "kanban_to_do": "To Do",
+  "kanban_in_progress": "In Progress",
+  "kanban_verify": "Verify",
+  "kanban_done": "Done",
+
   "end": "end"
 }

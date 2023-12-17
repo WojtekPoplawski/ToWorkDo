@@ -1,6 +1,7 @@
 import { IndexableType } from "dexie";
 import { db } from "./db";
 import { Task } from "./entities";
+import { useLiveQuery } from "dexie-react-hooks";
 
 export class TaskRepository {
   static addTask = async (task: Task): Promise<IndexableType> =>
@@ -12,7 +13,7 @@ export class TaskRepository {
   static deleteTask = async (id: number): Promise<void> =>
     await db.tasks.delete(id);
 
-  static getAllTasks = async (): Promise<Task[]> => await db.tasks.toArray();
+  static getAllTasks = () => useLiveQuery(() => db.tasks.toArray(), []) || [];
 
   static getTask = async (id: number): Promise<Task | undefined> =>
     await db.tasks.get(id);

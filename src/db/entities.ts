@@ -4,7 +4,7 @@ export interface Task {
   project_id?: number;
   description?: string;
   priority: number;
-  assigned: 0 | 1;
+  assigned: 0 | 1 | 2 | 3 | 4;
   create_date: Date;
   deadline: Date;
 }
@@ -15,15 +15,13 @@ export interface Subtask {
   title: string;
   description?: string;
   priority: number;
-  assigned: 0 | 1;
+  assigned: 0 | 1 | 2 | 3 | 4;
   create_date: Date;
   deadline: Date;
 }
 
 export interface Project {
   id?: number;
-  title: string
+  title: string;
   description?: string;
 }
-
-
