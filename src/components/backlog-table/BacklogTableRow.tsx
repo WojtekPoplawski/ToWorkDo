@@ -6,7 +6,6 @@ import {
   Grid,
   IconButton,
   Paper,
-  Tab,
   Table,
   TableBody,
   TableCell,
@@ -23,6 +22,7 @@ import { db } from "../../db/db";
 import { useLiveQuery } from "dexie-react-hooks";
 import { TaskRepository } from "../../db/tasksRepository";
 import AddNewSubtask from "../shared/AddNewSubtask";
+import EditTaskDialog from "../shared/EditTaskDialog.tsx";
 
 type BackLogTableRowProps = {
   task: Task;
@@ -34,12 +34,12 @@ const BacklogTableRow = ({ task }: BackLogTableRowProps) => {
 
   const subtasks = useLiveQuery(
     () => db.subtasks.where("task_id").equals(task.id!!).toArray(),
-    []
+    [],
   );
 
   const handleDelete = () => {
     TaskRepository.deleteTask(task.id!!);
-  }
+  };
 
   const getPrioirtyLabel = (priority: number | undefined | null) => {
     switch (priority) {
@@ -75,13 +75,17 @@ const BacklogTableRow = ({ task }: BackLogTableRowProps) => {
         </TableCell>
         <TableCell>
           <ButtonGroup>
-          <AddNewSubtask buttonOptions={{color: "primary", variant:"contained"}} task_id={task.id!!} />
-          <Button disabled={true} variant="contained" color="primary">
-            {t("task_table_edit")}
-          </Button>
-          <Button variant="contained" color="error" onClick={handleDelete}>
-            {t("task_table_delete")}
-          </Button>
+            <AddNewSubtask
+              buttonOptions={{ color: "primary", variant: "contained" }}
+              task_id={task.id!!}
+            />
+            <EditTaskDialog
+              task={task}
+              buttonOptions={{ color: "primary", variant: "contained" }}
+            />
+            <Button variant="contained" color="error" onClick={handleDelete}>
+              {t("task_table_delete")}
+            </Button>
           </ButtonGroup>
         </TableCell>
         {subtasks !== undefined && subtasks.length > 0 && (

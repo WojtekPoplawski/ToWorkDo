@@ -10,10 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { useLiveQuery } from "dexie-react-hooks";
-import { db } from "../db/db";
 import AddNewTask from "./shared/AddNewTask";
-import BooleanIcon from "./shared/BooleanIcon";
 import BacklogTableRow from "./backlog-table/BacklogTableRow";
 import { TaskRepository } from "../db/tasksRepository";
 

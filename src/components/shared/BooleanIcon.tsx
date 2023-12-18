@@ -1,15 +1,17 @@
-import React from 'react';import CheckIcon from '@mui/icons-material/Check';import ClearIcon from '@mui/icons-material/Clear';
+import React from "react";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 
 type BooleanIconType = {
-    value: boolean | 0|1;
+  value: boolean | 0 | 1 | 2 | 3 | 4;
 };
 
-const BooleanIcon = ({value}:BooleanIconType) => {
-    return (
-        <>  
-        {value === true || value === 1 && <CheckIcon />}
-        {value === false || value === 0 && <ClearIcon />}
-        </>
-    );
+const BooleanIcon = ({ value }: BooleanIconType) => {
+  return (
+    <>
+      {value === true || (value === 1 && <CheckIcon />)}
+      {value === false || (value === 0 && <ClearIcon />)}
+    </>
+  );
 };
 export default BooleanIcon;

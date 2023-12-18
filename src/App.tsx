@@ -3,7 +3,6 @@ import "./App.css";
 import { Grid, Paper } from "@mui/material";
 import AppHead from "./components/AppHead";
 import Backlog from "./components/Backlog.tsx";
-import { db } from "./db/db.ts";
 import Kanban from "./components/Kanban.tsx";
 
 const App = () => {
