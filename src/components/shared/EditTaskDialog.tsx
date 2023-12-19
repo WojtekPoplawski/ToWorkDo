@@ -11,6 +11,7 @@ import {
 import { Task } from "../../db/entities.ts";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import PrioritySelect from "./PrioritySelect.tsx";
 
 type EditTaskDialog = {
   task: Task;
@@ -34,8 +35,10 @@ const EditTaskDialog = ({ task, buttonOptions }: EditTaskDialog) => {
 
   const [newTitle, setNewTitle] = useState(task.title);
   const [newDescription, setNewDescription] = useState(task.description);
-  const [newPriority, setNewPriority] = useState(task.priority);
-  const [newDeadline, setNewDeadline] = useState(task.deadline);
+  const [newPriority, setNewPriority] = useState<number | null>(task.priority);
+  const [newDeadline, setNewDeadline] = useState(
+    task.deadline.toISOString().slice(0, 16),
+  );
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewTitle(event.target.value);
@@ -45,11 +48,11 @@ const EditTaskDialog = ({ task, buttonOptions }: EditTaskDialog) => {
   ) => {
     setNewDescription(event.target.value);
   };
-  const handlePriorityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewPriority(Number(event.target.value));
+  const handlePriorityChange = (number: number | null) => {
+    setNewPriority(number);
   };
   const handleDeadlineChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // setNewDeadline(event.target.value);
+    setNewDeadline(event.target.value);
   };
   const handleOpen = () => {
     setOpen(true);
@@ -133,6 +136,10 @@ const EditTaskDialog = ({ task, buttonOptions }: EditTaskDialog) => {
               alignItems={"center"}
             >
               <Typography>{t("task_priority")}</Typography>
+              <PrioritySelect
+                value={newPriority}
+                handleValueChange={handlePriorityChange}
+              />
               {/*TODO: Add PrioritySelect*/}
             </Grid>
             <Grid

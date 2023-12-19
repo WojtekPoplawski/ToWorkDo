@@ -27,22 +27,35 @@ type AddNewSubtaskProps = {
       | undefined;
   };
 };
-
+//TOOD: Check for bugs,and correct hooks usage
 const AddNewSubtask = ({ task_id, buttonOptions }: AddNewSubtaskProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const [title, setTitle] = useState<string | undefined>(undefined);
   const [description, setDescription] = useState<string | undefined>(undefined);
-  const [priority, setPiority] = useState<number | undefined | null>(null);
+  const [priority, setPiority] = useState<number | null>(null);
   const [deadline, setDeadline] = useState<string | undefined>(undefined);
+
   const [isValid, setIsValid] = useState<boolean>(false);
 
   useEffect(() => {
-    if (title && description && priority && deadline) {
+    if (
+      title !== undefined &&
+      title !== "" &&
+      description !== undefined &&
+      description !== "" &&
+      priority !== null &&
+      deadline !== undefined &&
+      deadline !== ""
+    ) {
       setIsValid(true);
     } else {
       setIsValid(false);
     }
+    console.log("title: ", title);
+    console.log("description: ", description);
+    console.log("priority: ", priority);
+    console.log("deadline: ", deadline);
   }, [title, description, priority, deadline]);
 
   const { t } = useTranslation();
@@ -52,26 +65,25 @@ const AddNewSubtask = ({ task_id, buttonOptions }: AddNewSubtaskProps) => {
   };
 
   const handleClose = () => {
+    handleClearForm();
     setDialogOpen(false);
   };
 
-  const handleTitleChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setTitle(event.target.value);
+  const handleTitleChange = (title: string) => {
+    setTitle(title);
   };
 
   const handleDescriptionChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setDescription(event.target.value);
   };
 
-  const handlePiorityChange = (value: number | null) => {
+  const handlePriorityChange = (value: number | null) => {
     setPiority(value);
   };
   const handleDeadlineChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setDeadline(event.target.value);
   };
@@ -104,8 +116,12 @@ const AddNewSubtask = ({ task_id, buttonOptions }: AddNewSubtaskProps) => {
   return (
     <>
       <Button
-        color={buttonOptions?.color !== undefined? buttonOptions?.color : "primary"}
-        variant={buttonOptions?.variant !== undefined? buttonOptions?.variant: "text"}
+        color={
+          buttonOptions?.color !== undefined ? buttonOptions?.color : "primary"
+        }
+        variant={
+          buttonOptions?.variant !== undefined ? buttonOptions?.variant : "text"
+        }
         onClick={handleOpen}
       >
         {t("add_new_subtask")}
@@ -130,7 +146,10 @@ const AddNewSubtask = ({ task_id, buttonOptions }: AddNewSubtaskProps) => {
               alignItems={"center"}
             >
               <Typography>{t("add_new_subtask")}</Typography>
-              <TextField value={title} onChange={handleTitleChange} />
+              <TextField
+                value={title}
+                onChange={(event) => handleTitleChange(event.target.value)}
+              />
             </Grid>
             <Grid
               container
@@ -159,7 +178,7 @@ const AddNewSubtask = ({ task_id, buttonOptions }: AddNewSubtaskProps) => {
               <Typography>{t("subtask_priority")}</Typography>
               <PrioritySelect
                 value={priority}
-                handleValueChange={handlePiorityChange}
+                handleValueChange={handlePriorityChange}
               />
             </Grid>
             <Grid

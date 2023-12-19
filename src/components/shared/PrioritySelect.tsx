@@ -1,5 +1,4 @@
 import { Autocomplete, TextField } from "@mui/material";
-import { SyntheticEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 type PrioritySelectType = {
@@ -8,20 +7,10 @@ type PrioritySelectType = {
 };
 
 const PrioritySelect = ({ value, handleValueChange }: PrioritySelectType) => {
+  console.log(value);
   const { t } = useTranslation();
-  const [priority, setPriority] = useState<number | undefined | null>(null);
-  useEffect(() => {
-    priority && handleValueChange(priority);
-  }, [priority]);
 
-  const handlePiorityChange = (
-    event: SyntheticEvent<Element, Event>,
-    value: number | null
-  ) => {
-    setPriority(value);
-  };
-
-  const getPrioirtyLabel = (priority: number | undefined | null) => {
+  const getPrioirtyLabel = (priority: number | null) => {
     switch (priority) {
       case 2:
         return t("highest_priority");
@@ -43,8 +32,8 @@ const PrioritySelect = ({ value, handleValueChange }: PrioritySelectType) => {
       options={[2, 1, 0, -1, -2]}
       getOptionLabel={(option) => getPrioirtyLabel(option)}
       renderInput={(params) => <TextField {...params} />}
-      value={priority}
-      onChange={handlePiorityChange}
+      value={value}
+      onChange={(event, value) => handleValueChange(value)}
     />
   );
 };

@@ -3,9 +3,7 @@ import {
   Button,
   ButtonGroup,
   Collapse,
-  Grid,
   IconButton,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -86,6 +84,8 @@ const BacklogTableRow = ({ task }: BackLogTableRowProps) => {
             <Button variant="contained" color="error" onClick={handleDelete}>
               {t("task_table_delete")}
             </Button>
+            {/* TODO: Add Show task button */}
+            {/* TODO: Add Move to kanban button*/}
           </ButtonGroup>
         </TableCell>
         {subtasks !== undefined && subtasks.length > 0 && (
@@ -104,16 +104,6 @@ const BacklogTableRow = ({ task }: BackLogTableRowProps) => {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
-              <Paper>
-                <Grid>
-                  <Typography variant="h6" gutterBottom component="div">
-                    {t("task_description")}
-                  </Typography>
-                  <Typography variant="body2" gutterBottom>
-                    {task.description}
-                  </Typography>
-                </Grid>
-              </Paper>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>

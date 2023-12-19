@@ -27,9 +27,9 @@ const App = () => {
           </>
         );
       case 2:
-        return <></>;
+        return <>{/* TODO: Add Time log component */}</>;
       case 3:
-        return <></>;
+        return <>{/* TODO: Add Stats component */}</>;
       default:
         return <></>;
     }
