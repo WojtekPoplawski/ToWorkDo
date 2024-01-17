@@ -4,12 +4,26 @@ import { Grid, Paper } from "@mui/material";
 import AppHead from "./components/AppHead";
 import Backlog from "./components/Backlog.tsx";
 import Kanban from "./components/Kanban.tsx";
+import { startTimeLogging, stopTimeLogging } from "./timeLogger.ts";
 
 const App = () => {
   const [tab, setTab] = useState(0);
+  const [timeLoggerState, setTimeLoggerState] = useState(
+    localStorage.getItem("timeLoggerState") === "true" || false,
+  );
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTab(newValue);
+  };
+  const handleTimeLoggerStateOn = () => {
+    setTimeLoggerState(true);
+    startTimeLogging();
+    localStorage.setItem("timeLoggerState", String(true));
+  };
+  const handleTimeLoggerStateOff = () => {
+    setTimeLoggerState(false);
+    stopTimeLogging();
+    localStorage.setItem("timeLoggerState", String(false));
   };
 
   const tabSwitch = () => {
@@ -44,7 +58,13 @@ const App = () => {
         width: "100vw",
       }}
     >
-      <AppHead tab={tab} handleTabChange={handleTabChange} />
+      <AppHead
+        tab={tab}
+        handleTabChange={handleTabChange}
+        timeLoggerState={timeLoggerState}
+        handleTimeLoggerStateOn={handleTimeLoggerStateOn}
+        handleTimeLoggerStateOff={handleTimeLoggerStateOff}
+      />
       <Paper
         elevation={4}
         sx={{

@@ -1,13 +1,22 @@
-import { Grid, Tab, Tabs, Typography } from "@mui/material";
+import { Grid, IconButton, Paper, Tab, Tabs, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { HourglassEmpty } from "@mui/icons-material";
+import { HourglassEmpty, Pause, PlayArrow } from "@mui/icons-material";
 
 type AppHeadProps = {
   tab: number;
   handleTabChange: Function;
+  timeLoggerState: boolean;
+  handleTimeLoggerStateOn: Function;
+  handleTimeLoggerStateOff: Function;
 };
 
-const AppHead = ({ tab, handleTabChange }: AppHeadProps) => {
+const AppHead = ({
+  tab,
+  handleTabChange,
+  timeLoggerState,
+  handleTimeLoggerStateOn,
+  handleTimeLoggerStateOff,
+}: AppHeadProps) => {
   const { t } = useTranslation();
 
   return (
@@ -38,7 +47,19 @@ const AppHead = ({ tab, handleTabChange }: AppHeadProps) => {
         </Tabs>
       </Grid>
 
-      <Grid item xs={3}></Grid>
+      <Grid item xs={3}>
+        <Paper>
+          <IconButton
+            onClick={() =>
+              timeLoggerState
+                ? handleTimeLoggerStateOff()
+                : handleTimeLoggerStateOn()
+            }
+          >
+            {timeLoggerState ? <Pause /> : <PlayArrow />}
+          </IconButton>
+        </Paper>
+      </Grid>
     </Grid>
   );
 };

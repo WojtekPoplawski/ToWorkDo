@@ -22,7 +22,7 @@ export class TaskRepository {
     await db.tasks.where("project_id").equals(project_id).toArray();
 
   static deleteTaskByProjectId = async (
-    project_id: number
+    project_id: number,
   ): Promise<IndexableType> =>
     await db.tasks.where("project_id").equals(project_id).delete();
 
@@ -30,5 +30,9 @@ export class TaskRepository {
     await db.tasks.where("assigned").equals(0).toArray();
 
   static getAllAssigned = async (): Promise<Task[]> =>
-    await db.tasks.where("assigned").equals(1).toArray();
+    await db.tasks
+      .where("assigned")
+      .notEqual(0)
+      .and((element) => !element.hide)
+      .toArray();
 }

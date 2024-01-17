@@ -9,6 +9,7 @@ export interface Task {
   deadline: Date;
   subtasks?: Array<Subtask>;
   subtask_count: number;
+  hide: boolean;
 }
 
 export type Subtask = { id: number; title: string; done: boolean };
@@ -17,4 +18,13 @@ export interface Project {
   id?: number;
   title: string;
   description?: string;
+}
+
+export interface TimeLog {
+  id?: number;
+  task_id: number;
+  status: "todo" | "working" | "verification" | "done";
+  start: Date;
+  end?: Date;
+  time_spent: number;
 }
