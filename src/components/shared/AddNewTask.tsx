@@ -7,7 +7,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import PrioritySelect from "./PrioritySelect";
 import { TaskRepository } from "../../db/tasksRepository";
@@ -17,7 +17,9 @@ const AddNewTask = () => {
 
   const [title, setTitle] = useState<string | undefined>(undefined);
   const [description, setDescription] = useState<string | undefined>(undefined);
-  const [priority, setPiority] = useState<number | undefined|null>(null);
+  const [priority, setPriority] = useState<
+    -2 | -1 | 0 | 1 | 2 | undefined | null
+  >(null);
   const [deadline, setDeadline] = useState<string | undefined>(undefined);
   const [isValid, setIsValid] = useState<boolean>(false);
 
@@ -40,44 +42,49 @@ const AddNewTask = () => {
   };
 
   const handleTitleChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setTitle(event.target.value);
   };
 
   const handleDescriptionChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setDescription(event.target.value);
   };
 
-  const handlePiorityChange = (value: number | null) => {
-    setPiority(value)
+  const handlePiorityChange = (value: -2 | -1 | 0 | 1 | 2 | null) => {
+    setPriority(value);
   };
-  const handleDeadlineChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setDeadline(event.target.value)
+  const handleDeadlineChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setDeadline(event.target.value);
   };
   const handleClearForm = () => {
     setTitle(undefined);
     setDescription(undefined);
-    setPiority(null);
+    setPriority(null);
     setDeadline(undefined);
-  }
+  };
   const handleAddNewTask = () => {
     TaskRepository.addTask({
       title: title || "",
       description: description || "",
       priority: priority || 0,
-      assigned: 0,
+      assigned: "none",
       create_date: new Date(),
       deadline: new Date(deadline || ""),
-    }).then((result: any) => {
-      console.log(result);
-      handleClose();
-      handleClearForm();
-    }).catch((error: any) => {  
-      console.log(error);
-    });
+      subtask_count: 0,
+    })
+      .then((result: any) => {
+        console.log(result);
+        handleClose();
+        handleClearForm();
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -132,7 +139,8 @@ const AddNewTask = () => {
               <Typography>{t("task_priority")}</Typography>
               <PrioritySelect
                 value={priority}
-                handleValueChange={handlePiorityChange}/>
+                handleValueChange={handlePiorityChange}
+              />
             </Grid>
             <Grid
               container
@@ -149,7 +157,14 @@ const AddNewTask = () => {
                 onChange={handleDeadlineChange}
               />
             </Grid>
-            <Button disabled={!isValid} onClick={()=>{handleAddNewTask()}}>{t("save_task")}</Button>
+            <Button
+              disabled={!isValid}
+              onClick={() => {
+                handleAddNewTask();
+              }}
+            >
+              {t("save_task")}
+            </Button>
           </Grid>
         </DialogContent>
       </Dialog>

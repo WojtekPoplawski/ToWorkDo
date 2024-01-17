@@ -1,26 +1,16 @@
 import {
-  Box,
   Button,
   ButtonGroup,
-  Collapse,
-  IconButton,
-  Table,
-  TableBody,
   TableCell,
-  TableHead,
   TableRow,
   Typography,
 } from "@mui/material";
 import { Task } from "../../db/entities";
-import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import { useState } from "react";
-import BooleanIcon from "../shared/BooleanIcon";
 import { useTranslation } from "react-i18next";
-import { db } from "../../db/db";
-import { useLiveQuery } from "dexie-react-hooks";
 import { TaskRepository } from "../../db/tasksRepository";
-import AddNewSubtask from "../shared/AddNewSubtask";
 import EditTaskDialog from "../shared/EditTaskDialog.tsx";
+import TaskDialog from "../shared/TaskDialog.tsx";
 
 type BackLogTableRowProps = {
   task: Task;
@@ -30,13 +20,12 @@ const BacklogTableRow = ({ task }: BackLogTableRowProps) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
-  const subtasks = useLiveQuery(
-    () => db.subtasks.where("task_id").equals(task.id!!).toArray(),
-    [],
-  );
-
   const handleDelete = () => {
     TaskRepository.deleteTask(task.id!!);
+  };
+
+  const handleMoveToKanban = () => {
+    TaskRepository.editTask({ ...task, assigned: "todo" });
   };
 
   const getPrioirtyLabel = (priority: number | undefined | null) => {
@@ -57,89 +46,38 @@ const BacklogTableRow = ({ task }: BackLogTableRowProps) => {
   };
 
   return (
-    <>
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
-        <TableCell>{task.id}</TableCell>
-        <TableCell component="th" scope="row">
-          {task.title}
-        </TableCell>
-        <TableCell>{task.project_id}</TableCell>
-        <TableCell>{getPrioirtyLabel(task.priority)}</TableCell>
-        <TableCell>
-          <BooleanIcon value={task.assigned} />
-        </TableCell>
-        <TableCell>
-          <Typography>{task.deadline.toUTCString()}</Typography>
-        </TableCell>
-        <TableCell>
-          <ButtonGroup>
-            <AddNewSubtask
-              buttonOptions={{ color: "primary", variant: "contained" }}
-              task_id={task.id!!}
-            />
-            <EditTaskDialog
-              task={task}
-              buttonOptions={{ color: "primary", variant: "contained" }}
-            />
-            <Button variant="contained" color="error" onClick={handleDelete}>
-              {t("task_table_delete")}
-            </Button>
-            {/* TODO: Add Show task button */}
-            {/* TODO: Add Move to kanban button*/}
-          </ButtonGroup>
-        </TableCell>
-        {subtasks !== undefined && subtasks.length > 0 && (
-          <TableCell>
-            <IconButton
-              aria-label="expand row"
-              size="small"
-              onClick={() => setOpen(!open)}
-            >
-              {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
-            </IconButton>
-          </TableCell>
-        )}
-      </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>#</TableCell>
-                    <TableCell>{t("task_title")}</TableCell>
-                    <TableCell>{t("task_priority")}</TableCell>
-                    <TableCell>{t("task_assigned")}</TableCell>
-                    <TableCell>{t("task_deadline")}</TableCell>
-                    <TableCell></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {subtasks?.map((subtask, index) => (
-                    <TableRow key={index}>
-                      <TableCell>{subtask.id}</TableCell>
-                      <TableCell>{subtask.title}</TableCell>
-                      <TableCell>
-                        {getPrioirtyLabel(subtask.priority)}
-                      </TableCell>
-                      <TableCell>
-                        <BooleanIcon value={subtask.assigned} />
-                      </TableCell>
-                      <TableCell>
-                        <Typography>
-                          {subtask.deadline.toUTCString()}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </>
+    <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+      <TableCell>{task.id}</TableCell>
+      <TableCell component="th" scope="row">
+        {task.title}
+      </TableCell>
+      <TableCell>{task.project_id}</TableCell>
+      <TableCell>{getPrioirtyLabel(task.priority)}</TableCell>
+      <TableCell>{task.assigned}</TableCell>
+      <TableCell>
+        <Typography>{task.deadline.toUTCString()}</Typography>
+      </TableCell>
+      <TableCell>
+        <ButtonGroup>
+          <EditTaskDialog
+            task={task}
+            buttonOptions={{ color: "primary", variant: "contained" }}
+          />
+          <Button variant="contained" color="error" onClick={handleDelete}>
+            {t("task_table_delete")}
+          </Button>
+          <TaskDialog task={task} />
+          <Button
+            variant={"contained"}
+            color={"warning"}
+            onClick={handleMoveToKanban}
+            disabled={task.assigned !== "none"}
+          >
+            {t("task_table_add_to_kanban")} {/* TODO: Add Translation */}
+          </Button>
+        </ButtonGroup>
+      </TableCell>
+    </TableRow>
   );
 };
 export default BacklogTableRow;

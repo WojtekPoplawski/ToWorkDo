@@ -1,5 +1,6 @@
 import { Grid, Tab, Tabs, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { HourglassEmpty } from "@mui/icons-material";
 
 type AppHeadProps = {
   tab: number;
@@ -20,7 +21,8 @@ const AppHead = ({ tab, handleTabChange }: AppHeadProps) => {
         paddingLeft: "1em",
       }}
     >
-      <Grid item xs={3}>
+      <Grid container item xs={3} alignItems={"center"}>
+        <HourglassEmpty fontSize={"large"} />
         <Typography variant={"h5"}>ToWorkDo</Typography>
       </Grid>
       <Grid item xs={6}>

@@ -2,15 +2,14 @@ import { Autocomplete, TextField } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 type PrioritySelectType = {
-  value: number | undefined | null;
-  handleValueChange: (value: number | null) => void;
+  value: -2 | -1 | 0 | 1 | 2 | undefined | null;
+  handleValueChange: (value: -2 | -1 | 0 | 1 | 2 | null) => void;
 };
 
 const PrioritySelect = ({ value, handleValueChange }: PrioritySelectType) => {
-  console.log(value);
   const { t } = useTranslation();
 
-  const getPrioirtyLabel = (priority: number | null) => {
+  const getPriorityLabel = (priority: number | null) => {
     switch (priority) {
       case 2:
         return t("highest_priority");
@@ -27,13 +26,31 @@ const PrioritySelect = ({ value, handleValueChange }: PrioritySelectType) => {
     }
   };
 
+  const options = [2, 1, 0, -1, -2];
+  const mapOption = (option: number | null) => {
+    switch (option) {
+      case 2:
+        return 2;
+      case 1:
+        return 1;
+      case 0:
+        return 0;
+      case -1:
+        return -1;
+      case -2:
+        return -2;
+      default:
+        return 0;
+    }
+  };
+
   return (
     <Autocomplete
       options={[2, 1, 0, -1, -2]}
-      getOptionLabel={(option) => getPrioirtyLabel(option)}
+      getOptionLabel={(option) => getPriorityLabel(option)}
       renderInput={(params) => <TextField {...params} />}
       value={value}
-      onChange={(event, value) => handleValueChange(value)}
+      onChange={(event, value) => handleValueChange(mapOption(value))}
     />
   );
 };

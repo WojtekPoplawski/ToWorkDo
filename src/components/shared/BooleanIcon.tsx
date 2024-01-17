@@ -7,11 +7,18 @@ type BooleanIconType = {
 };
 
 const BooleanIcon = ({ value }: BooleanIconType) => {
-  return (
-    <>
-      {value === true || (value === 1 && <CheckIcon />)}
-      {value === false || (value === 0 && <ClearIcon />)}
-    </>
-  );
+  const handleBoolean = () => {
+    switch (value) {
+      case 0:
+        return false;
+      case 1:
+        return true;
+      case true:
+        return true;
+      case false:
+        return false;
+    }
+  };
+  return handleBoolean() ? <CheckIcon /> : <ClearIcon />;
 };
 export default BooleanIcon;

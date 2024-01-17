@@ -3,22 +3,15 @@ export interface Task {
   title: string;
   project_id?: number;
   description?: string;
-  priority: number;
-  assigned: 0 | 1 | 2 | 3 | 4;
+  priority: -2 | -1 | 0 | 1 | 2;
+  assigned: "none" | "todo" | "working" | "verification" | "done";
   create_date: Date;
   deadline: Date;
+  subtasks?: Array<Subtask>;
+  subtask_count: number;
 }
 
-export interface Subtask {
-  id?: number;
-  task_id: number;
-  title: string;
-  description?: string;
-  priority: number;
-  assigned: 0 | 1 | 2 | 3 | 4;
-  create_date: Date;
-  deadline: Date;
-}
+export type Subtask = { id: number; title: string; done: boolean };
 
 export interface Project {
   id?: number;

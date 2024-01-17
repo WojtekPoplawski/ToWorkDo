@@ -1,57 +1,38 @@
 {
   "// UI Labels": "",
-  
   "table": "Table",
   "backlog": "Backlog",
   "time_log": "Time Log",
   "stats": "Stats",
-
-
   "//Task": "",
-
   "task_title": "Title",
   "task_priority": "Priority",
   "task_deadline": "Deadline",
   "task_description": "Description",
-  "task_assigned":"Assigned",
-
-
-  
+  "task_assigned": "Assigned",
+  "task_created": "Created",
+  "task_project": "Project",
   "//Subtask": "",
-
   "subtask_title": "Title",
   "subtask_priority": "Priority",
   "subtask_deadline": "Deadline",
   "subtask_description": "Description",
-  "subtask_assigned":"Assigned",
-
-
+  "subtask_assigned": "Assigned",
   "//AddTaskOptions": "",
-
   "add_new_task": "Add New Task",
   "save_task": "Save Task",
-
-
   "//AddSubtaskOptions": "",
-
   "add_new_subtask": "Add New Subtask",
   "save_subtask": "Save Subtask",
-
   "//Priority": "",
-
   "highest_priority": "Highest",
   "high_priority": "High",
   "neutral_priority": "Neutral",
   "low_priority": "Low",
-  "lowest_priority":"Lowest",
-
-
+  "lowest_priority": "Lowest",
   "//Project": "",
-
-  "project_id":"Project ID",
-
+  "project_id": "Project ID",
   "//TaskTable": "",
-
   "table_task_title": "Title",
   "table_task_project": "Project",
   "table_task_priority": "Priority",
@@ -62,13 +43,10 @@
   "task_table_add_subtask": "Add Subtask",
   "task_table_edit": "Edit",
   "task_table_delete": "Delete",
-
-
   "//Kanban": "",
   "kanban_to_do": "To Do",
   "kanban_in_progress": "In Progress",
   "kanban_verify": "Verify",
   "kanban_done": "Done",
-
   "end": "end"
 }

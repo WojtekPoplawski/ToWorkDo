@@ -12,6 +12,7 @@ import { Task } from "../../db/entities.ts";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import PrioritySelect from "./PrioritySelect.tsx";
+import { TaskRepository } from "../../db/tasksRepository.ts";
 
 type EditTaskDialog = {
   task: Task;
@@ -54,16 +55,40 @@ const EditTaskDialog = ({ task, buttonOptions }: EditTaskDialog) => {
   const handleDeadlineChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewDeadline(event.target.value);
   };
+  const handleClearForm = () => {
+    setNewTitle(task.title);
+    setNewDescription(task.description);
+    setNewPriority(task.priority);
+    setNewDeadline(task.deadline.toISOString().slice(0, 16));
+  };
   const handleOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+    handleClearForm();
   };
 
   const handleEdit = () => {
-    //TODO: Add edit functionality
+    TaskRepository.editTask({
+      id: task.id!!,
+      title: newTitle,
+      description: newDescription,
+      priority: newPriority || task.priority,
+      deadline: new Date(newDeadline),
+      assigned: task.assigned,
+      create_date: task.create_date,
+    })
+      .then((result) => {
+        console.log(result); //TODO: Add snackbar
+      })
+      .catch((error) => {
+        console.log(error); //TODO: Add snackbar
+      })
+      .finally(() => {
+        handleClose();
+      });
   };
 
   return (
@@ -160,10 +185,10 @@ const EditTaskDialog = ({ task, buttonOptions }: EditTaskDialog) => {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button>
+          <Button onClick={handleClose}>
             {t("edit_task_dialog_cancel_button")} {/* TODO: Add translation */}
           </Button>
-          <Button>
+          <Button onClick={handleEdit}>
             {t("edit_task_dialog_save_button")} {/* TODO: Add translation */}
           </Button>
         </DialogActions>
