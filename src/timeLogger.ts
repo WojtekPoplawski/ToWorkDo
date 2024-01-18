@@ -24,7 +24,7 @@ export const stopTimeLogging = () => {
         ...timelog,
         end: new Date(),
         time_spent: Math.round(
-          (new Date().getTime() - timelog.start.getTime()) / 1000 / 60,
+          (new Date().getTime() - timelog.start.getTime()) / 1000,
         ),
       });
     });
@@ -34,13 +34,14 @@ export const stopTimeLogging = () => {
 export const timeloggedTaskStatusModification = (task: Task) => {
   TimelogsRepository.getAllNotDoneForTask(task.id as number).then(
     (timelogs) => {
+      console.log(timelogs)
       if (timelogs.length > 0) {
         timelogs.forEach((timelog) => {
           TimelogsRepository.edit({
             ...timelog,
             end: new Date(),
             time_spent: Math.round(
-              (new Date().getTime() - timelog.start.getTime()) / 1000 / 60,
+              (new Date().getTime() - timelog.start.getTime()) / 1000,
             ),
           });
           task.assigned !== "none" &&

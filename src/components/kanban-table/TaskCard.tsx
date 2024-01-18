@@ -13,6 +13,7 @@ import { TaskRepository } from "../../db/tasksRepository.ts";
 import { getNextAssigned, getPreviousAssigned } from "../shared/Utlis.ts";
 import React from "react";
 import TaskDialog from "../shared/TaskDialog.tsx";
+import { timeloggedTaskStatusModification } from "../../timeLogger.ts";
 
 type TaskCardProps = {
   task: Task;
@@ -36,10 +37,12 @@ const TaskCard = ({ task }: TaskCardProps) => {
   const handleTableChangeNext = () => {
     const next = getNextAssigned(task.assigned);
     TaskRepository.editTask({ ...task, assigned: next });
+    next !== "none" && timeloggedTaskStatusModification({...task,assigned:next})
   };
   const handleTableChangePrevious = () => {
     const next = getPreviousAssigned(task.assigned);
     TaskRepository.editTask({ ...task, assigned: next });
+    next !== "none" && timeloggedTaskStatusModification({...task,assigned:next})
   };
   const handleSubtaskDoneChange = (value: boolean, subtask: Subtask) => {
     TaskRepository.editTask({
