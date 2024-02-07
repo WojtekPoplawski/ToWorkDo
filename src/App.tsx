@@ -76,6 +76,8 @@ const App = () => {
           height: "88%",
           width: "98%",
           padding: "1rem",
+          overflow: "auto",
+          scrollbarColor: "#6b6b6b #2b2b2b",
         }}
       >
         {tabSwitch()}

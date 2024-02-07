@@ -53,9 +53,9 @@ const BacklogTableRow = ({ task }: BackLogTableRowProps) => {
       </TableCell>
       <TableCell>{task.project_id}</TableCell>
       <TableCell>{getPrioirtyLabel(task.priority)}</TableCell>
-      <TableCell>{task.assigned}</TableCell>
+      <TableCell>{t(task.assigned)}</TableCell>
       <TableCell>
-        <Typography>{task.deadline.toUTCString()}</Typography>
+        <Typography>{task.deadline.toLocaleString()}</Typography>
       </TableCell>
       <TableCell>
         <ButtonGroup>

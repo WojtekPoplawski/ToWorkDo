@@ -9,7 +9,7 @@ const Kanban = () => {
   const tasks = TaskRepository.getAllTasks();
   const tasksByAssigment = (
     assigned: "none" | "todo" | "working" | "verification" | "done",
-  ) => tasks?.filter((task) => task.assigned === assigned);
+  ) => tasks?.filter((task) => task.assigned === assigned && !task.hide);
 
   return (
     <Grid container item justifyContent="center" xs={12} spacing={3}>

@@ -36,7 +36,8 @@ const EditTaskDialog = ({ task, buttonOptions }: EditTaskDialog) => {
 
   const [newTitle, setNewTitle] = useState(task.title);
   const [newDescription, setNewDescription] = useState(task.description);
-  const [newPriority, setNewPriority] = useState<number | null>(task.priority);
+  const [newPriority, setNewPriority] = useState<
+  -2 | -1 | 0 | 1 | 2 | undefined | null>(task.priority);
   const [newDeadline, setNewDeadline] = useState(
     task.deadline.toISOString().slice(0, 16),
   );
@@ -49,7 +50,7 @@ const EditTaskDialog = ({ task, buttonOptions }: EditTaskDialog) => {
   ) => {
     setNewDescription(event.target.value);
   };
-  const handlePriorityChange = (number: number | null) => {
+  const handlePriorityChange = (number: -2 | -1 | 0 | 1 | 2 | null) => {
     setNewPriority(number);
   };
   const handleDeadlineChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,6 +80,8 @@ const EditTaskDialog = ({ task, buttonOptions }: EditTaskDialog) => {
       deadline: new Date(newDeadline),
       assigned: task.assigned,
       create_date: task.create_date,
+      hide: task.hide,
+      subtask_count: task.subtask_count,
     })
       .then((result) => {
         console.log(result); //TODO: Add snackbar

@@ -13,7 +13,7 @@ const KanbanRow = ({ title,tasks }: KanbanRowProps) => {
       <Paper sx={{ padding: "1rem" }}>
         <Typography variant="h5">{title}</Typography>
         <Grid>
-        {tasks.map((task) => (<TaskCard task={task} />))}</Grid>
+        {tasks.map((task,index) => (<TaskCard key={index} task={task} />))}</Grid>
       </Paper>
     </Grid>
   );

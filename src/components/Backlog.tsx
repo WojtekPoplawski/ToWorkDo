@@ -21,8 +21,11 @@ const Backlog = () => {
 
   return (
     <Grid container justifyContent="center">
+      <Grid container item xs={12} justifyContent={"space-around"} alignItems={"center"}>
+        <div></div>
       <Typography variant="h3">BackLog</Typography>
       <AddNewTask />
+      </Grid>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>

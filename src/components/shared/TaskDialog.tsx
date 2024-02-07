@@ -85,15 +85,15 @@ const TaskDialog = ({ task }: TaskDialogProps) => {
             <Grid item xs={6}>
               <p>{task.project_id}</p>
               <Chip label={t("task_create_date")} />
-              <p>{task.create_date.toString()}</p>
+              <p>{task.create_date.toLocaleString()}</p>
               <Chip label={t("task_deadline")} />
-              <p>{task.deadline.toString()}</p>
+              <p>{task.deadline.toLocaleString()}</p>
             </Grid>
           </Grid>
           <Grid>
             <Chip label={t("task_subtasks")} />
-            {task.subtasks?.map((subtask) => (
-              <>
+            {task.subtasks?.map((subtask,index) => (
+              <div key={index}>
                 <Grid
                   container
                   item
@@ -119,7 +119,7 @@ const TaskDialog = ({ task }: TaskDialogProps) => {
                   </Grid>
                 </Grid>
                 <Divider />
-              </>
+              </div>
             ))}
             <Grid
               container

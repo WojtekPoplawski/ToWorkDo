@@ -76,6 +76,7 @@ const AddNewTask = () => {
       create_date: new Date(),
       deadline: new Date(deadline || ""),
       subtask_count: 0,
+      hide: false
     })
       .then((result: any) => {
         console.log(result);
@@ -89,7 +90,7 @@ const AddNewTask = () => {
 
   return (
     <>
-      <Button onClick={handleOpen}>{t("add_new_task")}</Button>
+      <Button onClick={handleOpen} variant="contained">{t("add_new_task")}</Button>
       <Dialog open={dialogOpen} onClose={handleClose}>
         <DialogTitle>{t("add_new_task")}</DialogTitle>
         <DialogContent>

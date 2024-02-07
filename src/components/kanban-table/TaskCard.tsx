@@ -8,12 +8,13 @@ import {
   Typography,
 } from "@mui/material";
 import { Subtask, Task } from "../../db/entities";
-import { Alarm, ArrowLeft, ArrowRight } from "@mui/icons-material";
+import { Alarm, ArrowLeft, ArrowRight, Close } from "@mui/icons-material";
 import { TaskRepository } from "../../db/tasksRepository.ts";
 import { getNextAssigned, getPreviousAssigned } from "../shared/Utlis.ts";
 import React from "react";
 import TaskDialog from "../shared/TaskDialog.tsx";
-import { timeloggedTaskStatusModification } from "../../timeLogger.ts";
+import { timeLoggedTaskHideModification, timeloggedTaskStatusModification } from "../../timeLogger.ts";
+import { time } from "react-i18next/icu.macro";
 
 type TaskCardProps = {
   task: Task;
@@ -44,6 +45,10 @@ const TaskCard = ({ task }: TaskCardProps) => {
     TaskRepository.editTask({ ...task, assigned: next });
     next !== "none" && timeloggedTaskStatusModification({...task,assigned:next})
   };
+  const handleHideTaskChange = () => {
+    TaskRepository.editTask({ ...task, hide: true });
+    timeLoggedTaskHideModification(task);
+  }
   const handleSubtaskDoneChange = (value: boolean, subtask: Subtask) => {
     TaskRepository.editTask({
       ...task,
@@ -67,17 +72,24 @@ const TaskCard = ({ task }: TaskCardProps) => {
             >
               <ArrowLeft />
             </IconButton>
-            <IconButton
-              disabled={task.assigned == "done"}
+            {task.assigned !== "done" ? (
+              <IconButton
               onClick={handleTableChangeNext}
             >
               <ArrowRight />
             </IconButton>
+            ):(
+              <IconButton
+              onClick={handleHideTaskChange}
+              >
+                <Close fontSize="small"/>
+              </IconButton>
+            )}
           </Grid>
         </Grid>
         <Grid container item justifyContent={"space-between"}>
           <Grid item>
-            <Chip icon={<Alarm />} label={task.deadline.toUTCString()} />
+            <Chip icon={<Alarm />} label={task.deadline.toLocaleString()} />
           </Grid>
           <Grid item>
             <TaskDialog task={task} />
