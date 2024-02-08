@@ -48,12 +48,13 @@ const Statistics = () => {
 
   useEffect(() => {
     setTaskCountArchived(allTasks.filter((task) => task.hide).length);
+    const averageTime = Math.round(
+      allTimelogs.reduce((acc, timelog) => acc + timelog.time_spent, 0) /
+        allTimelogs.length,
+    )
     setAverageTimeTask(
       secondsToSpend(
-        Math.round(
-          allTimelogs.reduce((acc, timelog) => acc + timelog.time_spent, 0) /
-            allTimelogs.length,
-        ),
+        averageTime,
         t,
       ),
     );
@@ -65,7 +66,7 @@ const Statistics = () => {
         ? 1
         : new Set(allTasks.filter((task) => task.project_id)).size,
     );
-  }, []);
+  }, [allTasks, allTimelogs]);
 
   TaskRepository.getTasksCount().then((result) => {
     setTaskCount(result);
