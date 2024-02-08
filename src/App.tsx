@@ -4,8 +4,9 @@ import { Grid, Paper } from "@mui/material";
 import AppHead from "./components/AppHead";
 import Backlog from "./components/Backlog.tsx";
 import Kanban from "./components/Kanban.tsx";
-import { startTimeLogging, stopTimeLogging } from "./timeLogger.ts";
+import { startTimeLogging, stopTimeLogging } from "./time-logger/timeLogger.ts";
 import TimeLogs from "./components/TimeLogs.tsx";
+import Statistics from "./components/Statistics.tsx";
 
 const App = () => {
   const [tab, setTab] = useState(0);
@@ -42,9 +43,17 @@ const App = () => {
           </>
         );
       case 2:
-        return <><TimeLogs/></>;
+        return (
+          <>
+            <TimeLogs />
+          </>
+        );
       case 3:
-        return <>{/* TODO: Add Stats component */}</>;
+        return (
+          <>
+            <Statistics />
+          </>
+        );
       default:
         return <></>;
     }

@@ -1,6 +1,6 @@
-import { Task } from "./db/entities.ts";
-import { TaskRepository } from "./db/tasksRepository.ts";
-import { TimelogsRepository } from "./db/timelogsRepository.ts";
+import { Task } from "../db/entities.ts";
+import { TaskRepository } from "../db/tasksRepository.ts";
+import { TimelogsRepository } from "../db/timelogsRepository.ts";
 
 export const startTimeLogging = () => {
   TaskRepository.getAllAssigned().then((tasks) => {
@@ -72,4 +72,4 @@ export const timeLoggedTaskHideModification = (task: Task) => {
       }
     },
   );
-}
+};

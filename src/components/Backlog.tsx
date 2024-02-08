@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import AddNewTask from "./shared/AddNewTask";
-import BacklogTableRow from "./backlog-table/BacklogTableRow";
+import BacklogTableRow from "./backlog-components/BacklogTableRow";
 import { TaskRepository } from "../db/tasksRepository";
 
 const Backlog = () => {
@@ -21,10 +21,16 @@ const Backlog = () => {
 
   return (
     <Grid container justifyContent="center">
-      <Grid container item xs={12} justifyContent={"space-around"} alignItems={"center"}>
+      <Grid
+        container
+        item
+        xs={12}
+        justifyContent={"space-around"}
+        alignItems={"center"}
+      >
         <div></div>
-      <Typography variant="h3">BackLog</Typography>
-      <AddNewTask />
+        <Typography variant="h3">BackLog</Typography>
+        <AddNewTask />
       </Grid>
       <TableContainer component={Paper}>
         <Table>

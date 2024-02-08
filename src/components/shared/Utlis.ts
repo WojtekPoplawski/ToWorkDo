@@ -1,3 +1,5 @@
+import { TFunction } from "i18next";
+
 export const getNextAssigned = (
   assigned: "none" | "todo" | "working" | "verification" | "done",
 ): "none" | "todo" | "working" | "verification" | "done" => {
@@ -27,4 +29,15 @@ export const getPreviousAssigned = (
     ["done", "verification"],
   ]);
   return beforeAssigned.get(assigned) || "none";
+};
+
+export const secondsToSpend = (
+  seconds: number,
+  t: TFunction<"translation", undefined>,
+) => {
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  return hours === 0
+    ? `${minutes % 60} ${t("minutes")}`
+    : `${hours} ${t("hours")} ${t("and")} ${minutes % 60} ${t("minutes")}`;
 };

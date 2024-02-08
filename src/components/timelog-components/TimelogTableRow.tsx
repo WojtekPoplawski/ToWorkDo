@@ -1,8 +1,9 @@
-import { Tab, TableCell, TableRow } from "@mui/material";
+import { TableCell, TableRow } from "@mui/material";
 import { TimeLog } from "../../db/entities";
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 import { TaskRepository } from "../../db/tasksRepository";
 import { useTranslation } from "react-i18next";
+import { secondsToSpend } from "../shared/Utlis.ts";
 
 type TimelogTableRowProps = {
   timelog: TimeLog;
@@ -13,17 +14,9 @@ const TimelogTableRow = ({ timelog }: TimelogTableRowProps) => {
   const [taskName, setTaskName] = useState<string | undefined>("");
   useEffect(() => {
     TaskRepository.getTask(timelog.task_id).then((task) =>
-      setTaskName(task?.title)
+      setTaskName(task?.title),
     );
   });
-
-  const secondsToSpend = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-    return hours === 0
-      ? `${minutes % 60} ${t("minutes")}`
-      : `${hours} ${t("hours")} ${t("and")} ${minutes % 60} ${t("minutes")}`;
-  };
 
   return (
     <TableRow>
@@ -32,7 +25,7 @@ const TimelogTableRow = ({ timelog }: TimelogTableRowProps) => {
       <TableCell>{timelog.status}</TableCell>
       <TableCell>{timelog.start.toLocaleString()}</TableCell>
       <TableCell>{timelog.end?.toLocaleString()}</TableCell>
-      <TableCell>{secondsToSpend(timelog.time_spent)}</TableCell>
+      <TableCell>{secondsToSpend(timelog.time_spent, t)}</TableCell>
     </TableRow>
   );
 };

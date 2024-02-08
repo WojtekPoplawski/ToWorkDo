@@ -35,4 +35,16 @@ export class TaskRepository {
       .notEqual(0)
       .and((element) => !element.hide)
       .toArray();
+
+  static getTasksCount = async (): Promise<number> => await db.tasks.count();
+
+  static getTasksCountPerAssigned = async (
+    assigned: "none" | "todo" | "working" | "verification" | "done",
+  ): Promise<number> =>
+    await db.tasks.where("assigned").equals(assigned).count();
+
+  static getTasksCountPerPriority = async (
+    priority: -2 | -1 | 0 | 1 | 2,
+  ): Promise<number> =>
+    await db.tasks.where("priority").equals(priority).count();
 }

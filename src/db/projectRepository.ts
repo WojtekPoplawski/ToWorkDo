@@ -17,4 +17,6 @@ export class ProjectRepository {
 
   static deleteProject = async (id: number): Promise<void> =>
     await db.projects.delete(id);
+
+  static countProjects = async (): Promise<number> => await db.projects.count();
 }

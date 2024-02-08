@@ -20,4 +20,10 @@ export class TimelogsRepository {
 
   static getAllNotDoneForTask = async (task_id: number): Promise<TimeLog[]> =>
     await db.timelogs.where({ task_id, time_spent: 0 }).toArray();
+
+  static getFastestTimelog = async (): Promise<TimeLog | undefined> =>
+    await db.timelogs.orderBy("time_spent").first();
+
+  static getSlowestTimelog = async (): Promise<TimeLog | undefined> =>
+    await db.timelogs.orderBy("time_spent").last();
 }

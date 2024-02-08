@@ -16,6 +16,9 @@ export class ToWorkDoDB extends Dexie {
       tasks: "++id,title,project_id,assigned,deadline,hide",
       timelogs: "++id,task_id,start,end,time_spent,status",
     });
+    this.version(3).stores({
+      tasks: "++id,title,project_id,assigned,deadline,hide,priority",
+    });
   }
 }
 

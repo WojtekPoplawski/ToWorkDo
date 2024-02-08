@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import KanbanRow from "./kanban-table/KanbanRow";
+import KanbanRow from "./table-components/KanbanRow";
 import { useTranslation } from "react-i18next";
 import { TaskRepository } from "../db/tasksRepository";
 

@@ -13,8 +13,10 @@ import { TaskRepository } from "../../db/tasksRepository.ts";
 import { getNextAssigned, getPreviousAssigned } from "../shared/Utlis.ts";
 import React from "react";
 import TaskDialog from "../shared/TaskDialog.tsx";
-import { timeLoggedTaskHideModification, timeloggedTaskStatusModification } from "../../timeLogger.ts";
-import { time } from "react-i18next/icu.macro";
+import {
+  timeLoggedTaskHideModification,
+  timeloggedTaskStatusModification,
+} from "../../time-logger/timeLogger.ts";
 
 type TaskCardProps = {
   task: Task;
@@ -38,17 +40,19 @@ const TaskCard = ({ task }: TaskCardProps) => {
   const handleTableChangeNext = () => {
     const next = getNextAssigned(task.assigned);
     TaskRepository.editTask({ ...task, assigned: next });
-    next !== "none" && timeloggedTaskStatusModification({...task,assigned:next})
+    next !== "none" &&
+      timeloggedTaskStatusModification({ ...task, assigned: next });
   };
   const handleTableChangePrevious = () => {
     const next = getPreviousAssigned(task.assigned);
     TaskRepository.editTask({ ...task, assigned: next });
-    next !== "none" && timeloggedTaskStatusModification({...task,assigned:next})
+    next !== "none" &&
+      timeloggedTaskStatusModification({ ...task, assigned: next });
   };
   const handleHideTaskChange = () => {
     TaskRepository.editTask({ ...task, hide: true });
     timeLoggedTaskHideModification(task);
-  }
+  };
   const handleSubtaskDoneChange = (value: boolean, subtask: Subtask) => {
     TaskRepository.editTask({
       ...task,
@@ -73,16 +77,12 @@ const TaskCard = ({ task }: TaskCardProps) => {
               <ArrowLeft />
             </IconButton>
             {task.assigned !== "done" ? (
-              <IconButton
-              onClick={handleTableChangeNext}
-            >
-              <ArrowRight />
-            </IconButton>
-            ):(
-              <IconButton
-              onClick={handleHideTaskChange}
-              >
-                <Close fontSize="small"/>
+              <IconButton onClick={handleTableChangeNext}>
+                <ArrowRight />
+              </IconButton>
+            ) : (
+              <IconButton onClick={handleHideTaskChange}>
+                <Close fontSize="small" />
               </IconButton>
             )}
           </Grid>
