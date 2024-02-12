@@ -69,5 +69,22 @@
   "verification": "Verification",
   "hours":"Hours",
     "minutes":"Minutes",
-    "and":"and"
+    "and":"and",
+    "task_count":"Task count",
+    "task_count_none":"Number of unobserved tasks",
+    "task_count_todo":"Number of tasks to do",
+    "task_count_in_progress":"Number of tasks in progress",
+    "task_count_verification":"Number of tasks for verification",
+    "task_count_done":"Number of completed tasks",
+    "task_count_archived":"Number of archived tasks",
+    "task_count_priority_lowest":"Number of tasks with lowest priority",
+    "task_count_priority_low":"Number of tasks with low priority",
+    "task_count_priority_normal":"Number of tasks with normal priority",
+    "task_count_priority_high":"Number of tasks with high priority",
+    "task_count_priority_highest":"Number of tasks with highest priority",
+    "fastest_time_task":"Fastest task completion time",
+    "slowest_time_task":"Slowest task completion time",
+    "average_time_task":"Average task completion time",
+    "project_count":"Number of projects",
+    "average_task_count_in_project":"Average number of tasks in a project"
 }

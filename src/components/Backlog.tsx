@@ -29,7 +29,7 @@ const Backlog = () => {
         alignItems={"center"}
       >
         <div></div>
-        <Typography variant="h3">BackLog</Typography>
+        <Typography variant="h3">{t("backlog")}</Typography>
         <AddNewTask />
       </Grid>
       <TableContainer component={Paper}>

@@ -21,11 +21,13 @@ const App = () => {
     setTimeLoggerState(true);
     startTimeLogging();
     localStorage.setItem("timeLoggerState", String(true));
+    localStorage.setItem("timeLoggerStartTime", String(new Date()));
   };
   const handleTimeLoggerStateOff = () => {
     setTimeLoggerState(false);
     stopTimeLogging();
     localStorage.setItem("timeLoggerState", String(false));
+    localStorage.setItem("timeLoggerStartTime", String(""));
   };
 
   const tabSwitch = () => {

@@ -104,6 +104,7 @@ const EditTaskDialog = ({ task, buttonOptions }: EditTaskDialog) => {
           buttonOptions?.variant !== undefined ? buttonOptions?.variant : "text"
         }
         onClick={handleOpen}
+        disabled={task.hide}
       >
         {
           t("edit_task_button") //TODO: Add translation
