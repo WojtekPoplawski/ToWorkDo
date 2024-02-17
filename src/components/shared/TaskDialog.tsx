@@ -60,7 +60,7 @@ const TaskDialog = ({ task }: TaskDialogProps) => {
   return (
     <>
       <Button onClick={handleOpen}>
-        {t("open_task_dialog") /*TODO: Add Translation*/}
+        {t("open_task_dialog")}
       </Button>
       <Dialog open={open} maxWidth={"md"} fullWidth={true}>
         <DialogTitle>
@@ -105,7 +105,6 @@ const TaskDialog = ({ task }: TaskDialogProps) => {
                     <Typography>{subtask.title}</Typography>
                   </Grid>
                   <Grid item xs={2}>
-                    {/*TODO: Add Translation*/}
                     <Chip
                       size={"medium"}
                       label={subtask.done ? t("done") : t("not_done")}
@@ -144,7 +143,7 @@ const TaskDialog = ({ task }: TaskDialogProps) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>
-            {t("close_task_dialog") /*TODO: Add Translation*/}
+            {t("close_task_dialog")}
           </Button>
         </DialogActions>
       </Dialog>

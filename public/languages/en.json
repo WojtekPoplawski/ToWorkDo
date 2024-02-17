@@ -86,5 +86,12 @@
     "slowest_time_task":"Slowest task completion time",
     "average_time_task":"Average task completion time",
     "project_count":"Number of projects",
-    "average_task_count_in_project":"Average number of tasks in a project"
+    "average_task_count_in_project":"Average number of tasks in a project",
+    "show_all_timelogs":"Show all timelogs",
+    "start_time_filter":"Start time filter",
+    "end_time_filter":"End time filter",
+    "filter_logs":"Filter logs",
+    "edit_task_dialog_title": "Edit task",
+    "edit_task_dialog_cancel_button": "Cancel",
+    "edit_task_dialog_save_button": "Save"
 }

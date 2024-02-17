@@ -86,6 +86,13 @@
     "slowest_time_task":"Najwolfiejsze zakończenie zadania",
     "average_time_task":"Średni czas zakończenia zadania",
     "project_count":"Liczba projektów",
-    "average_task_count_in_project":"Średnia liczba zadań w projekcie"
+    "average_task_count_in_project":"Średnia liczba zadań w projekcie",
+    "show_all_timelogs": "Pokaż wszystko",
+    "start_time_filter": "Czasu rozpoczęcia",
+    "end_time_filter": "Czas końca",
+    "filter_logs": "Filtruj dzienniki",
+    "edit_task_dialog_title": "Edytuj zadanie",
+    "edit_task_dialog_cancel_button": "Anuluj",
+    "edit_task_dialog_save_button": "Zapisz"
   }
   

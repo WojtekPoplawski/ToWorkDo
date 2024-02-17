@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Task } from "../../db/entities";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TaskRepository } from "../../db/tasksRepository";
 import EditTaskDialog from "../shared/EditTaskDialog.tsx";
@@ -19,6 +19,13 @@ type BackLogTableRowProps = {
 const BacklogTableRow = ({ task }: BackLogTableRowProps) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+  const [timeLoggerState, setTimeLoggerState] = useState(
+    localStorage.getItem("timeLoggerState") === "true"
+  );
+
+  useEffect(() => {
+    setTimeLoggerState(localStorage.getItem("timeLoggerState") === "true");
+  }, [localStorage.getItem("timeLoggerState")]);
 
   const handleDelete = () => {
     TaskRepository.deleteTask(task.id!!);
@@ -61,9 +68,15 @@ const BacklogTableRow = ({ task }: BackLogTableRowProps) => {
         <ButtonGroup>
           <EditTaskDialog
             task={task}
+            timeLoggerState={timeLoggerState}
             buttonOptions={{ color: "primary", variant: "contained" }}
           />
-          <Button variant="contained" color="error" onClick={handleDelete}>
+          <Button
+            variant="contained"
+            color="error"
+            disabled={timeLoggerState}
+            onClick={handleDelete}
+          >
             {t("task_table_delete")}
           </Button>
           <TaskDialog task={task} />
@@ -73,7 +86,7 @@ const BacklogTableRow = ({ task }: BackLogTableRowProps) => {
             onClick={handleMoveToKanban}
             disabled={task.assigned !== "none"}
           >
-            {t("task_table_add_to_kanban")} {/* TODO: Add Translation */}
+            {t("task_table_add_to_kanban")}
           </Button>
         </ButtonGroup>
       </TableCell>

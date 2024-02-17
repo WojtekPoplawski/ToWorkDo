@@ -24,12 +24,14 @@ const AddNewTask = () => {
   const [isValid, setIsValid] = useState<boolean>(false);
 
   useEffect(() => {
-    if (title && description && priority && deadline) {
+    if (title !== "" && priority !== undefined && priority !== null && new Date(deadline || "").getTime() > new Date().getTime()) {
       setIsValid(true);
     } else {
       setIsValid(false);
     }
   }, [title, description, priority, deadline]);
+
+
 
   const { t } = useTranslation();
 

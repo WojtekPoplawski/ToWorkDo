@@ -16,6 +16,7 @@ import { TaskRepository } from "../../db/tasksRepository.ts";
 
 type EditTaskDialog = {
   task: Task;
+  timeLoggerState?: boolean;
   buttonOptions?: {
     variant?: "text" | "outlined" | "contained" | undefined;
     color?:
@@ -30,7 +31,7 @@ type EditTaskDialog = {
   };
 };
 
-const EditTaskDialog = ({ task, buttonOptions }: EditTaskDialog) => {
+const EditTaskDialog = ({ task, timeLoggerState ,buttonOptions }: EditTaskDialog) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
@@ -84,10 +85,10 @@ const EditTaskDialog = ({ task, buttonOptions }: EditTaskDialog) => {
       subtask_count: task.subtask_count,
     })
       .then((result) => {
-        console.log(result); //TODO: Add snackbar
+        console.log(result);
       })
       .catch((error) => {
-        console.log(error); //TODO: Add snackbar
+        console.log(error);
       })
       .finally(() => {
         handleClose();
@@ -104,15 +105,15 @@ const EditTaskDialog = ({ task, buttonOptions }: EditTaskDialog) => {
           buttonOptions?.variant !== undefined ? buttonOptions?.variant : "text"
         }
         onClick={handleOpen}
-        disabled={task.hide}
+        disabled={task.hide || timeLoggerState}
       >
         {
-          t("edit_task_button") //TODO: Add translation
+          t("edit_task_button")
         }
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>
-          {t("edit_task_dialog_title")} {/* TODO: Add translation */}
+          {t("edit_task_dialog_title")}
         </DialogTitle>
         <DialogContent>
           <Grid
@@ -133,7 +134,6 @@ const EditTaskDialog = ({ task, buttonOptions }: EditTaskDialog) => {
             >
               <Typography>
                 {t("task_title")}
-                {/* TODO: Add translation */}
               </Typography>
               <TextField value={newTitle} onChange={handleTitleChange} />
             </Grid>
@@ -147,7 +147,6 @@ const EditTaskDialog = ({ task, buttonOptions }: EditTaskDialog) => {
             >
               <Typography>
                 {t("task_description")}
-                {/* TODO: Add translation */}
               </Typography>
               <TextField
                 multiline
@@ -169,7 +168,6 @@ const EditTaskDialog = ({ task, buttonOptions }: EditTaskDialog) => {
                 value={newPriority}
                 handleValueChange={handlePriorityChange}
               />
-              {/*TODO: Add PrioritySelect*/}
             </Grid>
             <Grid
               container
@@ -190,10 +188,10 @@ const EditTaskDialog = ({ task, buttonOptions }: EditTaskDialog) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>
-            {t("edit_task_dialog_cancel_button")} {/* TODO: Add translation */}
+            {t("edit_task_dialog_cancel_button")}
           </Button>
           <Button onClick={handleEdit}>
-            {t("edit_task_dialog_save_button")} {/* TODO: Add translation */}
+            {t("edit_task_dialog_save_button")}
           </Button>
         </DialogActions>
       </Dialog>

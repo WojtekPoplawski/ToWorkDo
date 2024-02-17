@@ -28,16 +28,16 @@ const Statistics = () => {
   const [taskCountPriorityHigh, setTaskCountPriorityHigh] = useState(0);
   const [taskCountPriorityHighest, setTaskCountPriorityHighest] = useState(0);
   const [fastestTimeTaskName, setFastestTimeTaskName] = useState(
-    t("not_found"),
+    t("not_found")
   );
   const [slowestTimeTaskName, setSlowestTimeTaskName] = useState(
-    t("not_found"),
+    t("not_found")
   );
   const [fastestTimeTaskAmount, setFastestTimeTaskAmount] = useState(
-    t("not_found"),
+    t("not_found")
   );
   const [slowestTimeTaskAmount, setSlowestTimeTaskAmount] = useState(
-    t("not_found"),
+    t("not_found")
   );
   const [averageTimeTask, setAverageTimeTask] = useState(t("not_found"));
   const [projectCount, setProjectCount] = useState(0);
@@ -50,21 +50,16 @@ const Statistics = () => {
     setTaskCountArchived(allTasks.filter((task) => task.hide).length);
     const averageTime = Math.round(
       allTimelogs.reduce((acc, timelog) => acc + timelog.time_spent, 0) /
-        allTimelogs.length,
-    )
-    setAverageTimeTask(
-      secondsToSpend(
-        averageTime,
-        t,
-      ),
+        allTimelogs.length
     );
+    setAverageTimeTask(secondsToSpend(averageTime, t));
     setProjectCount(new Set(allTasks.filter((task) => task.project_id)).size);
     setAverageTaskCountInProject(
       allTasks.filter((task) => task.project_id).length /
         new Set(allTasks.filter((task) => task.project_id)).size ===
         0
         ? 1
-        : new Set(allTasks.filter((task) => task.project_id)).size,
+        : new Set(allTasks.filter((task) => task.project_id)).size
     );
   }, [allTasks, allTimelogs]);
 
@@ -103,13 +98,13 @@ const Statistics = () => {
   });
   TimelogsRepository.getFastestTimelog().then((result) => {
     setFastestTimeTaskName(
-      allTasks.find((task) => task.id === result?.task_id)?.title || "",
+      allTasks.find((task) => task.id === result?.task_id)?.title || ""
     );
     setFastestTimeTaskAmount(secondsToSpend(result?.time_spent || 0, t));
   });
   TimelogsRepository.getSlowestTimelog().then((result) => {
     setSlowestTimeTaskName(
-      allTasks.find((task) => task.id === result?.task_id)?.title || "",
+      allTasks.find((task) => task.id === result?.task_id)?.title || ""
     );
     setSlowestTimeTaskAmount(secondsToSpend(result?.time_spent || 0, t));
   });

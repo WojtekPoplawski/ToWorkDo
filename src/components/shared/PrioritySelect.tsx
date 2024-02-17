@@ -48,7 +48,7 @@ const PrioritySelect = ({ value, handleValueChange }: PrioritySelectType) => {
     <Autocomplete
       options={[2, 1, 0, -1, -2]}
       getOptionLabel={(option) => getPriorityLabel(option)}
-      renderInput={(params) => <TextField {...params} />}
+      renderInput={(params) => <TextField {...params} sx={{minWidth: "10rem"}} />}
       value={value}
       onChange={(event, value) => handleValueChange(mapOption(value))}
     />
