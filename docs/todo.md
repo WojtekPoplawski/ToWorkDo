@@ -1,0 +1,1 @@
+- Dorobić walidację formularza dodawania tasków
